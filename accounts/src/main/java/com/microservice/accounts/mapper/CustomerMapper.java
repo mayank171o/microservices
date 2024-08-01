@@ -1,11 +1,7 @@
 package com.microservice.accounts.mapper;
 
-import java.time.LocalDateTime;
-
 import com.microservice.accounts.dto.CustomerDto;
-
 import com.microservice.accounts.entity.Customer;
-import com.microservice.accounts.repository.CustomerRepository;
 
 public class CustomerMapper {
 

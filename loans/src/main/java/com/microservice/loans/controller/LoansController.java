@@ -42,25 +42,27 @@ public class LoansController {
 		LoansDTO lonsDTO = iLoanService.fetchLoan(mobileNumber);
 		return lonsDTO;
 	}
-	
+
 	@PutMapping("/update")
-	public ResponseEntity<ResponseDTO> updateLoan(@RequestBody LoansDTO LoansDTO)
-	{
+	public ResponseEntity<ResponseDTO> updateLoan(@RequestBody LoansDTO LoansDTO) {
 		iLoanService.updateLoan(LoansDTO);
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(new ResponseDTO(LoansConstants.STATUS_200, LoansConstants.MESSAGE_200));
 
 	}
-	
+
 	@DeleteMapping("/delete")
 	public ResponseEntity<ResponseDTO> deleteLoan(@RequestParam String mobileNumber)
 
 	{
-		
+
 		Boolean isDeleted = iLoanService.deleteLoan(mobileNumber);
-		return null;
-		
+		if (isDeleted) {
+			return null;
+		} else {
+			return null;
+		}
+
 	}
-	
-	
+
 }

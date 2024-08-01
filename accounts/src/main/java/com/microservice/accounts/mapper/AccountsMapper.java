@@ -1,12 +1,7 @@
 package com.microservice.accounts.mapper;
 
-import java.time.LocalDateTime;
-import java.util.Random;
-
-import com.microservice.accounts.constants.AccountsConstants;
 import com.microservice.accounts.dto.AccountsDto;
 import com.microservice.accounts.entity.Accounts;
-import com.microservice.accounts.entity.Customer;
 
 public class AccountsMapper {
 
