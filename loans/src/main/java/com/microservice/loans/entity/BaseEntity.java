@@ -1,4 +1,4 @@
-package com.microservice.accounts.entity;
+package com.microservice.loans.entity;
 
 import java.time.LocalDateTime;
 
@@ -12,21 +12,22 @@ import lombok.Setter;
 import lombok.ToString;
 
 @MappedSuperclass
-@Getter @Setter @ToString
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
+@ToString
 public class BaseEntity {
-	
+
 	@Column(updatable = false)
 	private LocalDateTime createdAt;
-	
+
 	@Column(insertable = false)
-	private LocalDateTime updatedAt;
-	
+	private LocalDateTime updateAt;
+
 	@Column(updatable = false)
 	private String createdBy;
-	
+
 	@Column(insertable = false)
 	private String updatedBy;
-	
 
 }
