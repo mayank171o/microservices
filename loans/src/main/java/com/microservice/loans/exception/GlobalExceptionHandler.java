@@ -3,6 +3,7 @@ package com.microservice.loans.exception;
 import java.time.LocalDateTime;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -14,28 +15,28 @@ import com.microservice.loans.DTO.ErrorResponseDTO;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
 	@ExceptionHandler(ResourceNotFoundException.class)
-	public ErrorResponseDTO handleResourceNotFoundException(ResourceNotFoundException exception,
+	public ResponseEntity<ErrorResponseDTO> handleResourceNotFoundException(ResourceNotFoundException exception,
 			WebRequest webRequest) {
 		ErrorResponseDTO errResDTO = new ErrorResponseDTO(webRequest.getDescription(false), HttpStatus.NOT_FOUND,
 				exception.getMessage(), LocalDateTime.now());
-		return errResDTO;
-
+		return new ResponseEntity<>(errResDTO, HttpStatus.BAD_REQUEST);
 	}
 	
 	@ExceptionHandler(LoanAlreadyExistsException.class)
-	public ErrorResponseDTO handleLoandAlreadyExistsException(LoanAlreadyExistsException exception,
+	public ResponseEntity<ErrorResponseDTO> handleLoandAlreadyExistsException(LoanAlreadyExistsException exception,
 			WebRequest webRequest) {
 		ErrorResponseDTO errResDTO = new ErrorResponseDTO(webRequest.getDescription(false), HttpStatus.NOT_FOUND,
 				exception.getMessage(), LocalDateTime.now());
-		return errResDTO;
+		return new ResponseEntity<>(errResDTO, HttpStatus.BAD_REQUEST);
+		
 
 	}
 	@ExceptionHandler(Exception.class)
-	public ErrorResponseDTO handleGlobalException(Exception exception,
+	public ResponseEntity<ErrorResponseDTO> handleGlobalException(Exception exception,
 			WebRequest webRequest) {
 		ErrorResponseDTO errResDTO = new ErrorResponseDTO(webRequest.getDescription(false), HttpStatus.INTERNAL_SERVER_ERROR,
 				exception.getMessage(), LocalDateTime.now());
-		return errResDTO;
+		return new ResponseEntity<>(errResDTO, HttpStatus.BAD_REQUEST);
 
 	}
 

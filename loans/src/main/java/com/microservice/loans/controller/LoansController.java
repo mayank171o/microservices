@@ -39,30 +39,34 @@ public class LoansController {
 	public LoansDTO fetchLoanDetails(@RequestParam String mobileNumber) {
 
 		System.out.println("Mobile number is  " + mobileNumber);
-		LoansDTO lonsDTO = iLoanService.fetchLoan(mobileNumber);
-		return lonsDTO;
+		LoansDTO loansDTO = iLoanService.fetchLoan(mobileNumber);
+		return loansDTO;
 	}
 
 	@PutMapping("/update")
 	public ResponseEntity<ResponseDTO> updateLoan(@RequestBody LoansDTO LoansDTO) {
-		iLoanService.updateLoan(LoansDTO);
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(new ResponseDTO(LoansConstants.STATUS_200, LoansConstants.MESSAGE_200));
+		boolean isUpdated = iLoanService.updateLoan(LoansDTO);
+		if (isUpdated) {
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(new ResponseDTO(LoansConstants.STATUS_200, LoansConstants.MESSAGE_200));
+		} else {
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+					.body(new ResponseDTO(LoansConstants.STATUS_417, LoansConstants.MESSAGE_417_UPDATE));
+		}
 
 	}
 
 	@DeleteMapping("/delete")
 	public ResponseEntity<ResponseDTO> deleteLoan(@RequestParam String mobileNumber)
-
 	{
-
 		Boolean isDeleted = iLoanService.deleteLoan(mobileNumber);
 		if (isDeleted) {
-			return null;
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(new ResponseDTO(LoansConstants.STATUS_200, LoansConstants.MESSAGE_200));
 		} else {
-			return null;
+			return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
+					.body(new ResponseDTO(LoansConstants.STATUS_417, LoansConstants.MESSAGE_417_DELETE));
 		}
 
 	}
-
 }

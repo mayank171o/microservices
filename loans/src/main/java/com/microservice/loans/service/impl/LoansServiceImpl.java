@@ -25,9 +25,9 @@ public class LoansServiceImpl implements ILoansService {
 	public Loans createLoan(String mobileNumber) {
 
 		if (loansRepository.findByMobileNumber(mobileNumber) != null) {
-			
+
 			throw new LoanAlreadyExistsException("Loan Already exists with this mobile number");
-		
+
 		} else {
 			return createNewLoan(mobileNumber);
 		}
@@ -70,6 +70,8 @@ public class LoansServiceImpl implements ILoansService {
 
 		} else {
 			LoansMapper.loansMapping(loansDTO, loans);
+			loans.setUpdatedAt(LocalDateTime.now());
+			loans.setUpdatedBy("System Update");
 			loansRepository.save(loans);
 			return true;
 		}
@@ -78,15 +80,14 @@ public class LoansServiceImpl implements ILoansService {
 
 	@Override
 	public Boolean deleteLoan(String mobileNumber) {
-		
-		if (loansRepository.findByMobileNumber(mobileNumber) ==null)
-		{
+
+		if (loansRepository.findByMobileNumber(mobileNumber) == null) {
 			throw new ResourceNotFoundException("Loan", "mobileNumber", mobileNumber);
-		}else
-		{
+		} else {
 			loansRepository.delete(loansRepository.findByMobileNumber(mobileNumber));
+			return true;
 		}
-		return null;
+		
 	}
 
 }
