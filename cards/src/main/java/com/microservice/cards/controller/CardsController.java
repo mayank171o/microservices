@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.microservice.cards.constants.CardsConstants;
 import com.microservice.cards.dto.CardsDto;
+import com.microservice.cards.dto.ResponseDto;
 import com.microservice.cards.entity.Cards;
 import com.microservice.cards.service.ICardsService;
 
@@ -28,10 +30,10 @@ public class CardsController {
 	}
 
 	@PostMapping("/create")
-	public Cards createCard(@RequestParam String mobileNumber) {
+	public ResponseDto createCard(@RequestParam String mobileNumber) {
 
-		Cards cards = iCardService.createCards(mobileNumber);
-		return cards;
+		iCardService.createCards(mobileNumber);
+		return new ResponseDto(CardsConstants.STATUS_201, CardsConstants.MESSAGE_201);
 
 	}
 	

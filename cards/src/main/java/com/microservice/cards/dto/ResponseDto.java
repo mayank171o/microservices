@@ -1,8 +1,9 @@
 package com.microservice.cards.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
+@Data @AllArgsConstructor
 public class ResponseDto {
 	
     private String statusCode;
