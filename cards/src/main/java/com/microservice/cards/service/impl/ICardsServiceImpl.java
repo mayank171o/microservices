@@ -46,7 +46,7 @@ public class ICardsServiceImpl implements ICardsService {
 	}
 
 	@Override
-	public void updateCards(CardsDto cardsDto) {
+	public Boolean updateCards(CardsDto cardsDto) {
 		Cards cards = cardsRepository.findByCardNumber(cardsDto.getCardNumber());
 
 		if (cards == null) {
@@ -56,33 +56,32 @@ public class ICardsServiceImpl implements ICardsService {
 			cards.setUpdatedAt(LocalDateTime.now());
 			cards.setUpdatedBy("System Update");
 			cardsRepository.save(CardsMapper.cardsMapping(cardsDto, cards));
+			return true;
 		}
 	}
 
 	@Override
-	public Cards getCardDetails(String mobileNumber) {
-		if(cardsRepository.findByMobileNumber(mobileNumber) == null)
-		{
-			throw new ResourceNotFoundException("Cards", "mobile number", mobileNumber);
-		}else
-		{
-			return cardsRepository.findByMobileNumber(mobileNumber);
-		}
-
-	}
-
-	@Override
-	public void deleteCard(String mobileNumber) {
-		
+	public CardsDto getCardDetails(String mobileNumber) {
 		Cards cards = cardsRepository.findByMobileNumber(mobileNumber);
-		if(cards == null)
-		{
+		if (cards == null) {
 			throw new ResourceNotFoundException("Cards", "mobile number", mobileNumber);
-		}else
-		{
-			cardsRepository.delete(cards);
+		} else {
+			return CardsMapper.cardsDtoMapping(cards, new CardsDto());
 		}
-		
+
+	}
+
+	@Override
+	public Boolean deleteCard(String mobileNumber) {
+
+		Cards cards = cardsRepository.findByMobileNumber(mobileNumber);
+		if (cards == null) {
+			throw new ResourceNotFoundException("Cards", "mobile number", mobileNumber);
+		} else {
+			cardsRepository.delete(cards);
+			return true;
+		}
+
 	}
 
 }

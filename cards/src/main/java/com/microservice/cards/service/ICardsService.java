@@ -10,10 +10,10 @@ public interface ICardsService {
 
 	public Cards createCards(String mobileNumber);
 
-	public void updateCards(CardsDto cardsDto);
+	public Boolean updateCards(CardsDto cardsDto);
 
-	public Cards getCardDetails(String mobileNumber);
+	public CardsDto getCardDetails(String mobileNumber);
 
-	public void deleteCard(String mobileNumber);
+	public Boolean deleteCard(String mobileNumber);
 
 }

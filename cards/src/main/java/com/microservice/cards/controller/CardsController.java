@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.microservice.cards.constants.CardsConstants;
 import com.microservice.cards.dto.CardsDto;
 import com.microservice.cards.dto.ResponseDto;
-import com.microservice.cards.entity.Cards;
 import com.microservice.cards.service.ICardsService;
 
 @RestController
@@ -36,23 +34,28 @@ public class CardsController {
 		return new ResponseDto(CardsConstants.STATUS_201, CardsConstants.MESSAGE_201);
 
 	}
-	
+
 	@PutMapping("/update")
-	public void updateCards(@RequestBody CardsDto cardsDto )
-	{
-		iCardService.updateCards(cardsDto);
+	public ResponseDto updateCards(@RequestBody CardsDto cardsDto) {
+		if (iCardService.updateCards(cardsDto)) {
+			return new ResponseDto(CardsConstants.STATUS_200, CardsConstants.MESSAGE_200);
+		} else {
+			return new ResponseDto(CardsConstants.STATUS_417, CardsConstants.MESSAGE_417_UPDATE);
+		}
 	}
-	
+
 	@GetMapping("/fetch")
-	public Cards getCardDetails(@RequestParam String mobileNumber )
-	{
+	public CardsDto getCardDetails(@RequestParam String mobileNumber) {
 		return iCardService.getCardDetails(mobileNumber);
 	}
-	
+
 	@DeleteMapping("/delete")
-	public void DeleteCard(@RequestParam String mobileNumber)
-	{
-		iCardService.deleteCard(mobileNumber);
+	public ResponseDto DeleteCard(@RequestParam String mobileNumber) {
+		if (iCardService.deleteCard(mobileNumber)) {
+			return new ResponseDto(CardsConstants.STATUS_200, CardsConstants.MESSAGE_200);
+		} else {
+			return new ResponseDto(CardsConstants.STATUS_417, CardsConstants.MESSAGE_417_DELETE);
+		}
 	}
 
 }
