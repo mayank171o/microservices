@@ -1,6 +1,8 @@
 package com.microservice.accounts.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.microservice.accounts.constants.AccountsConstants;
+import com.microservice.accounts.dto.AccountsContactInfoDto;
 import com.microservice.accounts.dto.CustomerDto;
 import com.microservice.accounts.dto.ResponseDto;
 import com.microservice.accounts.service.IAccountsService;
@@ -25,6 +27,15 @@ public class AccountsController {
 
 	@Autowired
 	private IAccountsService iAccountsService;
+
+	@Value("${build.version}")
+	private String version;
+	
+	@Autowired
+	private Environment environment;
+	
+	@Autowired
+	private AccountsContactInfoDto accountsContactInfoDto;
 
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDto> createAccount(@RequestBody CustomerDto customerDTO) {
@@ -58,9 +69,9 @@ public class AccountsController {
 		}
 
 	}
-	
+
 	@DeleteMapping("/delete")
-	public  ResponseEntity<ResponseDto> deleteAccount(@RequestParam String mobileNumber) {
+	public ResponseEntity<ResponseDto> deleteAccount(@RequestParam String mobileNumber) {
 
 		Boolean isDeleted = iAccountsService.deleteAccount(mobileNumber);
 		if (isDeleted) {
@@ -72,5 +83,26 @@ public class AccountsController {
 		}
 
 	}
+
+	@GetMapping("/version")
+	public String getVersion() {
+		return version;
+
+	}
+	
+	@GetMapping("/shell")
+    public ResponseEntity<String> getJavaVersion() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(environment.getProperty("SHELL"));
+    }
+	
+	@GetMapping("/get-contact")
+    public ResponseEntity<AccountsContactInfoDto> getContact() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountsContactInfoDto);
+    }
+	
 
 }
