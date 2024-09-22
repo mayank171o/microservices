@@ -1,0 +1,63 @@
+services:
+  configserver:
+    image: "mayank1783/configserver:s1"
+    container_name: configserver-ms
+    ports:
+      - "8071:8071"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+      
+  accounts:
+    image: "mayank1783/accounts:s1"
+    container_name: accounts-ms
+    ports:
+      - "8070:8070"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+    environment:
+     SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+     SPRING_PROFILE_ACTIVE: default
+     SPRING_APPLICATION_NAME: "accounts"
+     
+  loans:
+    image: "mayank1783/loans:s1"
+    container_name: loans-ms
+    ports:
+      - "8090:8090"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+    environment:
+     SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+     SPRING_PROFILE_ACTIVE: default
+     SPRING_APPLICATION_NAME: "loans"
+     
+  cards:
+    image: "mayank1783/cards:s1"
+    container_name: cards-ms
+    ports:
+      - "9000:9000"
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    networks:
+      - eazybank
+    environment:
+     SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
+     SPRING_PROFILE_ACTIVE: default
+     SPRING_APPLICATION_NAME: "cards"
+networks:
+  eazybank:
+    driver: "bridge"
