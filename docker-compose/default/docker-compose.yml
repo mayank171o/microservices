@@ -11,6 +11,8 @@ services:
       timeout: 5s
       retries: 10
       start_period: 5s
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit"
     networks:
       - eazybank
       
@@ -91,7 +93,7 @@ services:
      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
      SPRING_PROFILE_ACTIVE: default
      SPRING_APPLICATION_NAME: "cards"
-     
+        
 networks:
   eazybank:
     driver: "bridge"
