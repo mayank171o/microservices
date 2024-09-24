@@ -37,7 +37,7 @@ services:
     image: "mayank1783/accounts:s1"
     container_name: accounts-ms
     ports:
-      - "8080:8080"
+      - "8070:8070"
     depends_on:
       configserver:
         condition: service_healthy
