@@ -11,11 +11,10 @@ services:
       timeout: 5s
       retries: 10
       start_period: 5s
-    environment:
-      SPRING_RABBITMQ_HOST: "rabbit"
-    networks:
-      - eazybank
-      
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
   configserver:
     image: "mayank1783/configserver:s1"
     container_name: configserver-ms
@@ -23,39 +22,31 @@ services:
       - "8071:8071"
     depends_on:
       rabbit:
-       condition: service_healthy
+        condition: service_healthy
     healthcheck:
       test: "curl --fail --silent localhost:8071/actuator/health/readiness | grep UP || exit 1"
       interval: 10s
       timeout: 5s
       retries: 10
       start_period: 10s
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - eazybank
-      
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
+
   accounts:
     image: "mayank1783/accounts:s1"
     container_name: accounts-ms
     ports:
-      - "8070:8070"
+      - "8080:8080"
     depends_on:
       configserver:
         condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - eazybank
     environment:
-     SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
-     SPRING_PROFILE_ACTIVE: default
-     SPRING_APPLICATION_NAME: "accounts"
-     
+      SPRING_APPLICATION_NAME: "accounts"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+
   loans:
     image: "mayank1783/loans:s1"
     container_name: loans-ms
@@ -64,17 +55,12 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - eazybank
     environment:
-     SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
-     SPRING_PROFILE_ACTIVE: default
-     SPRING_APPLICATION_NAME: "loans"
-     
+      SPRING_APPLICATION_NAME: "loans"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+
   cards:
     image: "mayank1783/cards:s1"
     container_name: cards-ms
@@ -83,17 +69,12 @@ services:
     depends_on:
       configserver:
         condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - eazybank
     environment:
-     SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071"
-     SPRING_PROFILE_ACTIVE: default
-     SPRING_APPLICATION_NAME: "cards"
-        
+      SPRING_APPLICATION_NAME: "cards"
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+
 networks:
   eazybank:
     driver: "bridge"
