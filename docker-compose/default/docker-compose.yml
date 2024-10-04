@@ -15,7 +15,7 @@ services:
       service: microservice-base-config
 
   eurekaserver:
-    image: "mayank1783/eurekaserver:s9"
+    image: "mayank1783/eurekaserver:s10"
     container_name: eurekaserver-ms
     ports:
       - "8081:8081"
