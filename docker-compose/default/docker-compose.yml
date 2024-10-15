@@ -102,7 +102,7 @@ services:
       service: microservice-eureka-config
 
   gatewayserver:
-    image: "mayank1783/cards:s12"
+    image: "mayank1783/gatewayserver:s12"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
