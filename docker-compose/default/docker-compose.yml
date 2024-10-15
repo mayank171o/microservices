@@ -1,6 +1,6 @@
 services:
   configserver:
-    image: "mayank1783/configserver:s12"
+    image: "mayank1783/configserver:s15"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -15,7 +15,7 @@ services:
       service: microservice-base-config
 
   eurekaserver:
-    image: "mayank1783/eurekaserver:s12"
+    image: "mayank1783/eurekaserver:s15"
     container_name: eurekaserver-ms
     ports:
       - "8081:8081"
@@ -35,7 +35,7 @@ services:
       SPRING_APPLICATION_NAME: "eurekaserver"
 
   accounts:
-    image: "mayank1783/accounts:s12"
+    image: "mayank1783/accounts:s15"
     container_name: accounts-ms
     ports:
       - "8070:8070"
@@ -57,7 +57,7 @@ services:
       service: microservice-eureka-config
 
   loans:
-    image: "mayank1783/loans:s12"
+    image: "mayank1783/loans:s15"
     container_name: loans-ms
     ports:
       - "8090:8090"
@@ -80,7 +80,7 @@ services:
 
 
   cards:
-    image: "mayank1783/cards:s12"
+    image: "mayank1783/cards:s15"
     container_name: cards-ms
     ports:
       - "9000:9000"
@@ -102,7 +102,7 @@ services:
       service: microservice-eureka-config
 
   gatewayserver:
-    image: "mayank1783/gatewayserver:s12"
+    image: "mayank1783/gatewayserver:s15"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
